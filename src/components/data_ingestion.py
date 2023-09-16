@@ -14,6 +14,9 @@ from dataclasses import dataclass
 from src.components.data_transformation import DataTransformation
 from src.components.data_transformation import DataTransformationConfig
 
+from src.components.model_trainer import ModelTrainerConfig
+from src.components.model_trainer import ModelTrainer
+
 @dataclass
 class DataIngestionConfig:
     train_data_path: str=os.path.join('artifacts',"train.csv")
@@ -52,9 +55,12 @@ if __name__=="__main__":
     obj = DataIngestion()
     logging.info ("After Object")
     train_data, test_data = obj.initate_data_ingestion()
-    logging.info ("After Object initation") 
+    
 
     data_transformation = DataTransformation()
     logging.info ("After data transformation declaration")
-    data_transformation.initiate_data_transformation(train_data,test_data)
-    logging.info ("After data transformation initation")
+    #train_arr,test_arr = data_transformation.initiate_data_transformation(train_data,test_data)
+    train_arr,test_arr,_=data_transformation.initiate_data_transformation(train_data,test_data)
+    
+    modeltrainer=ModelTrainer()
+    print(modeltrainer.initiate_model_trainer(train_arr,test_arr))
